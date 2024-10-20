@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Northwind Products</title>
+    <script>
+        async function fetchProducts() {
+            const response = await fetch('/products');
+            const products = await response.json();
+            const productList = document.getElementById('productList');
+            productList.innerHTML = '';
+            products.forEach(product => {
+                const item = document.createElement('li');
+                item.textContent = `${product.name} - $${product.price}`;
+                productList.appendChild(item);
+            });
+        }
+
+        async function searchProduct() {
+            const id = document.getElementById('productId').value;
+            const response = await fetch(`/products/${id}`);
+            const result = document.getElementById('searchResult');
+            if (response.ok) {
+                const product = await response.json();
+                result.textContent = `${product.name} - $${product.price}`;
+            } else {
+                result.textContent = 'Product not found';
+            }
+        }
+
+        window.onload = fetchProducts;
+    </script>
+</head>
+<body>
+    <h1>Northwind Products</h1>
+    <ul id="productList"></ul>
+    <h2>Search Product by ID</h2>
+    <input type="number" id="productId" placeholder="Enter product ID">
+    <button onclick="searchProduct()">Search</button>
+    <p id="searchResult"></p>
+</body>
+</html>
