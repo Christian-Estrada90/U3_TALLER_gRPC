@@ -33,6 +33,50 @@
                 resultDiv.innerHTML = `<p>Error: ${data.msg}</p>`;
             }
         }
+
+        async function listarProductos(event) {
+            event.preventDefault(); 
+
+            const response = await fetch('/list-products', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+
+            const listDiv = document.getElementById('product-list');
+            if (response.ok) {
+                let tableHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                data.forEach(product => {
+                    tableHTML += `
+                        <tr>
+                            <td>${product.id}</td>
+                            <td>${product.name}</td>
+                            <td>${product.price}</td>
+                        </tr>
+                    `;
+                });
+
+                tableHTML += `</tbody></table>`;
+
+                listDiv.innerHTML = tableHTML;
+            } else {
+                listDiv.innerHTML = `<p>Error al listar los productos.</p>`;
+            }
+        }
     </script>
     <style>
         body {
@@ -58,7 +102,7 @@
         label {
             margin-right: 5px;
         }
-        input[type="text"] {
+        input[type="text"], input[type="number"] {
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -108,6 +152,8 @@
 <body>
     <h1>API GRPC</h1>
     <h1>AlgoritmosJA</h1>
+
+    <!-- Formulario para buscar un producto por ID -->
     <h2>Buscar Producto</h2>
     <form onsubmit="buscarProducto(event)">
         <label for="product_id">ID del Producto:</label>
@@ -116,5 +162,12 @@
     </form>
 
     <div id="result"></div>
+
+    <!-- Botón para listar todos los productos -->
+    <h2>Listar Productos</h2>
+    <button onclick="listarProductos(event)">Listar Todos los Productos</button>
+
+    <!-- Div donde se mostrará la lista de productos -->
+    <div id="product-list"></div>
 </body>
 </html>

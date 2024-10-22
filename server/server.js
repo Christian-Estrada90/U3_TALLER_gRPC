@@ -42,9 +42,31 @@ const getProduct = async (call, callback) => {
   }
 };
 
+// Metodo para listar todos los productos
+const listProduct = async (call, callback) => {
+  try {
+    const res = await pool.query('SELECT product_id, product_name, unit_price FROM products');
+    const products = res.rows.map(product => ({
+      id: product.product_id,
+      name: product.product_name,
+      price: parseFloat(product.unit_price),
+    }));
+
+    callback(null, { products });
+  } catch (error) {
+    callback({
+      code: grpc.status.INTERNAL,
+      details: error.message,
+    });
+  }
+};
+
 // Inicia el servidor gRPC
 const server = new grpc.Server();
-server.addService(productoProto.ProductService.service, { GetProduct: getProduct });
+server.addService(productoProto.ProductService.service, { 
+  GetProduct: getProduct, 
+  ListProduct: listProduct  
+});
 
 const PORT = 'localhost:50051';
 server.bindAsync(PORT, grpc.ServerCredentials.createInsecure(), (err, port) => {
