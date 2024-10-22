@@ -52,7 +52,7 @@ const listProduct = async (call, callback) => {
       price: parseFloat(product.unit_price),
     }));
 
-    callback(null, { products });
+    callback(null, { products });  // Devolver la lista de productos
   } catch (error) {
     callback({
       code: grpc.status.INTERNAL,
