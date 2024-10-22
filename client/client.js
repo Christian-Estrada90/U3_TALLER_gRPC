@@ -34,13 +34,13 @@ app.post('/products', (req, res) => {
   });
 });
 
-// Ruta para listar todos los productos
+//Metodo listar todos los productos
 app.get('/list-products', (req, res) => {
-  // El método ListProduct no requiere parámetros, por lo que llamamos al cliente sin argumentos.
+  
   client.ListProduct({}, (error, data) => {
     if (!error) {
-      console.log(data); // Aquí obtendrás la lista de productos
-      res.send(data.products); // Enviar la lista de productos al cliente
+      console.log(data); 
+      res.send(data.products);
     } else {
       console.error(error);
       res.status(500).send({ msg: error.message });

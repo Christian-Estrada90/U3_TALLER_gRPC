@@ -15,7 +15,7 @@ const pool = new Pool({
   port: 5432,
 });
 
-// Metodo para obtener el producto
+// Metodo para obtener el producto por id producto
 const getProduct = async (call, callback) => {
   const id = call.request.id;
 
@@ -52,7 +52,7 @@ const listProduct = async (call, callback) => {
       price: parseFloat(product.unit_price),
     }));
 
-    callback(null, { products });  // Devolver la lista de productos
+    callback(null, { products });
   } catch (error) {
     callback({
       code: grpc.status.INTERNAL,
