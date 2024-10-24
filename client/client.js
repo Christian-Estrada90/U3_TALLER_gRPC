@@ -14,12 +14,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir el archivo HTML
+// Motodo GET para el servicio el archivo HTML
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'producto.html'));
 });
-// Ruta para obtener un producto por ID
+//Metodo POST listar todos los productos
 app.post('/products', (req, res) => {
   const productId = req.body.product_id; // Obtiene el ID del cuerpo de la solicitud
 
@@ -34,7 +34,7 @@ app.post('/products', (req, res) => {
   });
 });
 
-//Metodo listar todos los productos
+//Metodo GET listar todos los productos
 app.get('/list-products', (req, res) => {
   
   client.ListProduct({}, (error, data) => {

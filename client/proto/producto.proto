@@ -2,37 +2,38 @@ syntax = "proto3";
 
 package producto;
 
-// Definición del servicio
+
 service ProductService {
   rpc GetProduct (ProductRequest) returns (ProductResponse);
   rpc ListProduct (Empty) returns (ProductListResponse);
 }
 
-// Mensajes
 
-// Solicitud para obtener un producto por ID
+
+
+
 message ProductRequest {
   int32 id = 1;
 }
 
-// Respuesta con los detalles del producto
+
 message ProductResponse {
   int32 id = 1;
   string name = 2;
   float price = 3;
 }
 
-// Producto individual
+
 message Product {
   int32 id = 1;
   string name = 2;
   float price = 3;
 }
 
-// Lista de productos
+
 message ProductListResponse {
   repeated Product products = 1;
 }
 
-// Mensaje vacío para listProduct (en caso no se necesiten parámetros)
+
 message Empty {}
